@@ -451,7 +451,16 @@ At 100k requests/month the AI API cost ($500) is 4× the infrastructure cost —
 .\start.ps1
 ```
 
-Both scripts verify Docker is running, create `.env` from `jwt-keys.txt` if it doesn't exist, build and start all containers (`postgres`, `redis`, `backend`, `worker`, `frontend`), wait for PostgreSQL to be ready, and run migrations automatically.
+Both scripts verify Docker is running, create `.env` from `jwt-keys.txt` if it doesn't exist (JWT keys are pre-generated), build and start all containers (`postgres`, `redis`, `backend`, `worker`, `frontend`), wait for PostgreSQL to be ready, and run migrations automatically.
+
+> **Default mode:** the app starts with `LLM_PROVIDER=mock` — no API key needed. To use a real LLM, add your key to `.env` before running the script:
+> ```env
+> OPENAI_API_KEY=sk-...
+> # Optional — override the LLM provider (default: mock)
+> LLM_PROVIDER=openai
+> LLM_MODEL=gpt-4o
+> ```
+> See the [LLM Provider Abstraction](#llm-provider-abstraction) section for all supported providers.
 
 Once done, the app is available at:
 
