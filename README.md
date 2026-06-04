@@ -441,38 +441,31 @@ At 100k requests/month the AI API cost ($500) is 4× the infrastructure cost —
 
 ### Quick Start
 
+**Linux / macOS:**
 ```bash
-# 1. Clone and enter directory
-cd challenge-AI Engineer
+./start.sh
+```
 
-# 2. Copy environment file
-cp .env.example .env
-# Edit .env: add your OPENAI_API_KEY and generate JWT keys (see below)
+**Windows (PowerShell):**
+```powershell
+.\start.ps1
+```
 
-# 3. Generate JWT RS256 keypair
-node -e "
-const { generateKeyPairSync } = require('crypto')
-const { privateKey, publicKey } = generateKeyPairSync('rsa', { modulusLength: 2048 })
-console.log('JWT_PRIVATE_KEY=' + privateKey.export({ type: 'pkcs8', format: 'pem' }).toString().replace(/\n/g, '\\n'))
-console.log('JWT_PUBLIC_KEY=' + publicKey.export({ type: 'spki', format: 'pem' }).toString().replace(/\n/g, '\\n'))
-"
+Both scripts verify Docker is running, create `.env` from `jwt-keys.txt` if it doesn't exist, build and start all containers (`postgres`, `redis`, `backend`, `worker`, `frontend`), wait for PostgreSQL to be ready, and run migrations automatically.
 
-# 4. Start infrastructure
-docker compose up postgres redis -d
+Once done, the app is available at:
 
-# 5. Run migrations
-cd backend && npm install && npm run migrate
+| Service  | URL / address                                      |
+|----------|----------------------------------------------------|
+| Frontend | http://localhost:3000                              |
+| API      | http://localhost:8080                              |
+| Postgres | localhost:5433 (user: `dev` / pass: `dev` / db: `documind`) |
+| Redis    | localhost:6379                                     |
 
-# 6. Start backend
-npm run dev
-
-# 7. In a new terminal, start worker
-npm run worker
-
-# 8. Start frontend
-cd ../frontend && npm install && npm run dev
-
-# 9. Open http://localhost:3000
+```bash
+docker-compose down        # stop all services
+docker-compose logs -f     # stream all logs
+docker-compose logs -f worker  # stream worker logs only
 ```
 
 ### Using Mock Mode (no API key needed)
