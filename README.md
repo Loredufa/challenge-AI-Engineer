@@ -453,6 +453,12 @@ At 100k requests/month the AI API cost ($500) is 4× the infrastructure cost —
 
 Both scripts verify Docker is running, create `.env` from `jwt-keys.txt` if it doesn't exist (JWT keys are pre-generated), build and start all containers (`postgres`, `redis`, `backend`, `worker`, `frontend`), wait for PostgreSQL to be ready, and run migrations automatically.
 
+> **OTP in local development:** the app uses a console email adapter by default — no email is actually sent. After calling `POST /api/auth/request-otp`, **check the backend logs** to retrieve the OTP code:
+> ```bash
+> docker-compose logs -f backend | grep "OTP email"
+> ```
+> The log line looks like: `OTP email (console) { email: '...', otp: '123456' }`
+
 > **Default mode:** the app starts with `LLM_PROVIDER=mock` — no API key needed. To use a real LLM, add your key to `.env` before running the script:
 > ```env
 > OPENAI_API_KEY=sk-...
