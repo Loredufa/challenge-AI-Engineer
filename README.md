@@ -415,19 +415,19 @@ Based on current configuration: GPT-4o (`$2.50/1M` input, `$10.00/1M` output), `
 - Input: ~750 tokens (system prompt ~200 + context ~500 + question ~50) → $0.0019
 - Output: ~300 tokens → $0.0030
 - Embedding (question): ~50 tokens → $0.000001
-- **Total per chat request: ~$0.005**
+- **Total per chat request: \~$0.005**
 
 **Per document processed** (average 10-page PDF):
-- Chunks to embed: ~15 × 512 tokens = 7680 tokens → $0.00015
-- **Total per document: ~$0.0002**
+- Chunks to embed: \~15 × 512 tokens = 7680 tokens → $0.00015
+- **Total per document: \~$0.0002**
 
 | Volume | Chat requests | Documents | AI API cost |
 |--------|--------------|-----------|-------------|
-| 1,000 req | 1,000 | 100 | ~$5.02 |
-| 10,000 req | 10,000 | 500 | ~$50.10 |
-| 100,000 req | 100,000 | 2,000 | ~$500.40 |
+| 1,000 req | 1,000 | 100 | \~$5.02 |
+| 10,000 req | 10,000 | 500 | \~$50.10 |
+| 100,000 req | 100,000 | 2,000 | \~$500.40 |
 
-**Infrastructure costs** (fixed, AWS us-east-1): RDS t3.medium ~$50/mo, ElastiCache t3.micro ~$15/mo, ECS Fargate (2 tasks, 0.5 vCPU / 1 GB each) ~$30/mo, ALB ~$18/mo, S3 ~$2/mo. Total fixed: **~$115/month** regardless of request volume.
+**Infrastructure costs** (fixed, AWS us-east-1): RDS t3.medium \~$50/mo, ElastiCache t3.micro \~$15/mo, ECS Fargate (2 tasks, 0.5 vCPU / 1 GB each) \~$30/mo, ALB \~$18/mo, S3 \~$2/mo. Total fixed: **\~$115/month** regardless of request volume.
 
 At 100k requests/month the AI API cost ($500) is 4× the infrastructure cost — which is the expected profile for AI-heavy workloads. Cost optimization levers: switch to `gpt-4o-mini` (~10× cheaper, lower quality), reduce `max_tokens` cap, or cache embeddings for repeated questions.
 
